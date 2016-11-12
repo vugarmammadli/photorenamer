@@ -32,13 +32,52 @@ public class User {
 
 		return allImages;
 	}
-	
+
 	/**
 	 * Creates new tag with the name
-	 * @param name the name of new tag
+	 * 
+	 * @param name
+	 *            the name of new tag
+	 * @return true if the tag is not already exists and created successfully
 	 */
-	public void addTag(String name){
-		Tag.getAllTags().add(new Tag(name));
+	public boolean addTag(String name) {
+		Tag newTag = new Tag(name);
+
+		if (Tag.getAllTags().contains(newTag))
+			return false;
+
+		Tag.getAllTags().add(newTag);
+		return true;
+	}
+
+	/**
+	 * Returns tag with the name
+	 * 
+	 * @param name
+	 *            the name of the searched tag
+	 * @return Tag if there is a tag with the name, otherwise null.
+	 */
+	public Tag getTag(String name) {
+		for (Tag t : Tag.getAllTags()) {
+			if (t.getName() == name)
+				return t;
+		}
+		return null;
+	}
+
+	/**
+	 * Removes tag from the list of all tags.
+	 * 
+	 * @param tag
+	 *            the tag that should be removed
+	 * @return true iff there is a tag and it is deleted successfully.
+	 */
+	public boolean deleteTag(Tag tag) {
+		if (!Tag.getAllTags().contains(tag))
+			return false;
+
+		Tag.getAllTags().remove(tag);
+		return true;
 	}
 
 	/**
