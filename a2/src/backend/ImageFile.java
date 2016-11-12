@@ -17,7 +17,8 @@ public class ImageFile {
 		this.nameHistory = nameHistory;
 		this.tags = tags;
 	}
-
+	
+	
 	public String getFilePath() {
 		return filePath;
 	}
@@ -40,6 +41,10 @@ public class ImageFile {
 
 	public ArrayList<String> getTags() {
 		return tags;
+	}
+	
+	public void updateNameHistory (Date date, String newName) {
+		this.nameHistory.put(date, newName);
 	}
 
 }
