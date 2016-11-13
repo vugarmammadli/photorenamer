@@ -17,33 +17,69 @@ public class ImageFile {
 		this.nameHistory = nameHistory;
 		this.tags = tags;
 	}
-	
-	
+
+	/*
+	 * Returns the path to the image file
+	 * 
+	 * @return path to the file
+	 */
 	public String getFilePath() {
 		return filePath;
 	}
 
+	/*
+	 * Sets the file's path
+	 * 
+	 * @param filePath filePath new path to be set for the image file
+	 */
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
 
+	/*
+	 * Returns the name of the image file
+	 * 
+	 * @return name of file
+	 */
 	public String getFileName() {
 		return fileName;
 	}
+	/*
+	 * Sets the name of the image file
+	 * 
+	 * @param fileName new name to be set for the image file
+	 */
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 
+	/*
+	 * Returns the array list nameHistory
+	 * 
+	 * @return the history of all the name changes for this image file
+	 */
 	public HashMap<Date, String> getNameHistory() {
 		return nameHistory;
 	}
 
+	/*
+	 * Returns the array list tags
+	 * 
+	 * @return the list of tags for this image file
+	 */
 	public ArrayList<String> getTags() {
 		return tags;
 	}
-	
-	public void updateNameHistory (Date date, String newName) {
+
+	/*
+	 * Adds a change to array list nameHistory
+	 * 
+	 * @param date Date that the change was made
+	 * 
+	 * @param newName New name that the name was changed to
+	 */
+	public void updateNameHistory(Date date, String newName) {
 		this.nameHistory.put(date, newName);
 	}
 
