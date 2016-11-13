@@ -18,13 +18,13 @@ public class User {
 	 *            folder to search for image files
 	 * @return list of all image files
 	 */
-	public List<File> getAllImages(File directory) {
-		List<File> allImages = new ArrayList<>();
+	public List<ImageFile> getAllImages(File directory) {
+		List<ImageFile> allImages = new ArrayList<>();
 
 		for (File file : directory.listFiles()) {
 			if (file.isFile()) {
 				if (checkImageType(file))
-					allImages.add(file);
+					allImages.add(new ImageFile(file));
 			} else if (file.isDirectory()) {
 				allImages.addAll(getAllImages(file));
 			}
@@ -66,6 +66,20 @@ public class User {
 	}
 
 	/**
+	 * Adds selected tags to the file.
+	 * 
+	 * @param file
+	 *            the file which is tagged
+	 * @param tags
+	 *            the new tags of the file
+	 */
+	public void selectTag(ImageFile file, List<Tag> tags) {
+		if (tags != null && file != null) {
+			file.addTag(tags);
+		}
+	}
+
+	/**
 	 * Removes tag from the list of all tags.
 	 * 
 	 * @param tag
@@ -79,9 +93,21 @@ public class User {
 		Tag.getAllTags().remove(tag);
 		return true;
 	}
+	
+	/**
+	 * Reverts the name of the file to selected name
+	 * @param file the file that is changed
+	 * @param name the name to revert back
+	 */
+	public void revertName(ImageFile file, String name){
+		if (file != null) {
+			file.changeName(name);
+		}
+	}
 
 	/**
 	 * Helper function to check if the file type is image or not.
+	 * Source: http://stackoverflow.com/questions/9643228/test-if-file-is-an-image
 	 * 
 	 * @param file
 	 *            the file to be checked
