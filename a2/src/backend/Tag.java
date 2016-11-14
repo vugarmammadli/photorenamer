@@ -1,103 +1,58 @@
 package backend;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.*;
 
-public class Tag {
-	ArrayList<String> tagList = new ArrayList<String>();
+public class Tag implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1022090674498375140L;
+	private String name;
+	private int numUsed;
+	private static List<Tag> allTags = new ArrayList<>();
 
-	public Tag(ArrayList<String> tagList) {
-		this.tagList = tagList;
+	public Tag(String name) {
+		this.name = name;
+		this.numUsed = 0;
 	}
-	/*
-	 * Returns the array list tagList
-	 */
-	public ArrayList<String> getTagList() {
-		return tagList;
-	}
-	/*
-	 * Adds a String tag to the current tagList if and only if tag 
-	 * is not in tagList
-	 * 
-	 * @param tag  String to be added as a tag
-	 */
-	public void addTagList(String tag) {
-		// Check to see if the tag is already in the list of tags
-		if (this.tagList.contains(tag) == false) {
-			this.tagList.add(tag);
-		}
-	}
-	/*
-	 * Checks if there exists a text file called tagList.txt
-	 * that represents tagList. If it exists, an error message will be printed. 
-	 * If it does not exist, it will create a new text file called tagList.txt
-	 * 
-	 * @param directory  folder to search for the text file tagList.txt
-	 */
 
-	public void checkTagTextFile(File directory) {
-		 /* Optional
-		  * Boolean check = false;
-		for (File file : directory.listFiles()) {
-			if (file.isFile()) {
-				if (file.getName() == "tagList.txt") {
-					check = true;
-				}
-			}
-		}
-		 if (check == false) { */
-		
-			File tagFile = new File(directory.getPath() + "tagList.txt");
-			try {
-				tagFile.createNewFile();
-			} catch (IOException e) {
-				System.out.println("File already exists.");
-			}
-		// }
+	public String getName() {
+		return this.name;
 	}
-	/*
-	 * Updates the text file tagList.txt to match tagList. 
-	 * Error message will only run if checkTagTextFile has not been executed. 
-	 * 
-	 * @param tag  String to be added to the text file tagList.txt 
-	 */
-	public void updateTagFile(String tag) {
-		try 
-		{
-			String fileName = "tagList.txt";
-			FileWriter fw = new FileWriter(fileName,true);
-			fw.write(tag);
-			fw.close();
-		}
-		catch (IOException e) {
-			System.out.println("checkTagTextFile has not been run");
-		}
-		
-	}
-	/*
-	 * Returns the string representation of tagList by concatenating all 
-	 * elements of tagList
-	 * 
-	 * @return string representation of tagList
-	 */
 
-	public String tagListToString() {
-		String tags = "";
-		for (String tag : tagList) {
-			tags = tags + tag + ", ";
-		}
-		tags.trim();
-		return tags.substring(0, tags.length() - 1);
+	public void setName(String name) {
+		this.name = name;
 	}
-	/*
-	 * Returns number of tags in tagList
-	 * 
-	 * @return number of elements in tagList
-	 */
 
-	public int getCount() {
-		return this.tagList.size();
+	public int getNumUsed() {
+		return this.numUsed;
+	}
+
+	public void setNumUsed(int numUsed) {
+		this.numUsed = numUsed;
+	}
+
+	public static List<Tag> getAllTags() {
+		return allTags;
+	}
+
+	public static void setAllTags(List<Tag> allTags) {
+		Tag.allTags = allTags;
+	}
+
+	@Override
+	public String toString() {
+		return "Tag: " + name;
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (other == null || !(other instanceof Tag))
+			return false;
+		if (other == this)
+			return true;
+
+		return (((Tag) other).getName().equals(this.name));
 	}
 }

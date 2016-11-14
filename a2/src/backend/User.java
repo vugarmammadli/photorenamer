@@ -1,6 +1,7 @@
 package backend;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -8,7 +9,6 @@ import javax.activation.MimetypesFileTypeMap;
 public class User {
 
 	public User() {
-
 	}
 
 	/**
@@ -23,8 +23,9 @@ public class User {
 
 		for (File file : directory.listFiles()) {
 			if (file.isFile()) {
-				if (checkImageType(file))
+				if (checkImageType(file)) {
 					allImages.add(new ImageFile(file));
+				}
 			} else if (file.isDirectory()) {
 				allImages.addAll(getAllImages(file));
 			}
@@ -59,7 +60,7 @@ public class User {
 	 */
 	public Tag getTag(String name) {
 		for (Tag t : Tag.getAllTags()) {
-			if (t.getName() == name)
+			if (t.getName().equals(name))
 				return t;
 		}
 		return null;
@@ -73,9 +74,16 @@ public class User {
 	 * @param tags
 	 *            the new tags of the file
 	 */
-	public void selectTag(ImageFile file, List<Tag> tags) {
+	public boolean selectTag(ImageFile file, List<Tag> tags) {
 		if (tags != null && file != null) {
+			for (Tag t : tags) {
+				if (!Tag.getAllTags().contains(t))
+					return false;
+			}
 			file.addTag(tags);
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -93,21 +101,30 @@ public class User {
 		Tag.getAllTags().remove(tag);
 		return true;
 	}
-	
+
+	public void deleteTagFromImage(ImageFile selectedImage, Tag tag) {
+		if (selectedImage != null && tag != null) {
+			selectedImage.removeTag(tag);
+		}
+	}
+
 	/**
 	 * Reverts the name of the file to selected name
-	 * @param file the file that is changed
-	 * @param name the name to revert back
+	 * 
+	 * @param file
+	 *            the file that is changed
+	 * @param name
+	 *            the name to revert back
 	 */
-	public void revertName(ImageFile file, String name){
+	public void revertName(ImageFile file, String name) {
 		if (file != null) {
 			file.changeName(name);
 		}
 	}
 
 	/**
-	 * Helper function to check if the file type is image or not.
-	 * Source: http://stackoverflow.com/questions/9643228/test-if-file-is-an-image
+	 * Helper function to check if the file type is image or not. Source:
+	 * http://stackoverflow.com/questions/9643228/test-if-file-is-an-image
 	 * 
 	 * @param file
 	 *            the file to be checked
