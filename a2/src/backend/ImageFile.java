@@ -35,7 +35,7 @@ public class ImageFile implements Serializable {
 		logger.addHandler(simpleHandler);
 	}
 
-	/*
+	/**
 	 * Returns nameHistory in a friendly format
 	 * 
 	 * @return string representation of nameHistory
@@ -50,7 +50,7 @@ public class ImageFile implements Serializable {
 		return res;
 	}
 
-	/*
+	/**
 	 * Returns originalName
 	 * 
 	 * @return the original name of this image file
@@ -59,7 +59,7 @@ public class ImageFile implements Serializable {
 		return this.originalName;
 	}
 
-	/*
+	/**
 	 * Returns tags
 	 * 
 	 * @return the list of tags for this image file
@@ -67,8 +67,21 @@ public class ImageFile implements Serializable {
 	public List<Tag> getTags() {
 		return this.tags;
 	}
+	
+	/**
+	 * Returns tag of this image by name.
+	 * @param tagName Name of tag to return
+	 * @return tag iff there is a tag with tagName.
+	 */
+	public Tag getTagOfImage(String tagName){
+		for (Tag t : this.getTags()) {
+			if (t.getName().equals(tagName))
+				return t;
+		}
+		return null;
+	}
 
-	/*
+	/**
 	 * Return allImageFiles
 	 * 
 	 * @return the list of all image files
@@ -77,7 +90,7 @@ public class ImageFile implements Serializable {
 		return allImageFiles;
 	}
 
-	/*
+	/**
 	 * Sets the value of allImageFiles
 	 * 
 	 * @param allImageFiles new list of image files
@@ -86,7 +99,7 @@ public class ImageFile implements Serializable {
 		ImageFile.allImageFiles = allImageFiles;
 	}
 
-	/*
+	/**
 	 * Adds tag to this image file. Renames the file
 	 * 
 	 * @param tags new set of tags to be added for this image file
@@ -106,7 +119,7 @@ public class ImageFile implements Serializable {
 		}
 	}
 
-	/*
+	/**
 	 * Removes tag from this image file
 	 * 
 	 * @param tag new tag to be removed for this image file
@@ -126,7 +139,7 @@ public class ImageFile implements Serializable {
 		}
 	}
 
-	/*
+	/**
 	 * Reverts to a past name
 	 * 
 	 * @param name past name to revert to
@@ -145,7 +158,7 @@ public class ImageFile implements Serializable {
 		}
 	}
 
-	/*
+	/**
 	 * Helper function to change file name according to tags
 	 */
 	private void renameFile() {
@@ -173,7 +186,7 @@ public class ImageFile implements Serializable {
 		this.nameHistory.put(new Date(), newFileName);
 	}
 
-	/*
+	/**
 	 * Returns current name
 	 * 
 	 * @return the current name of ImageFile
@@ -187,7 +200,7 @@ public class ImageFile implements Serializable {
 	}
 
 	@Override
-	/*
+	/**
 	 * Returns string representation of this image file
 	 * 
 	 * @return string representation of image file
@@ -197,7 +210,7 @@ public class ImageFile implements Serializable {
 	}
 
 	@Override
-	/*
+	/**
 	 * Returns true if two images files are equal according to name
 	 * 
 	 * @param other ImageFile object to compare to

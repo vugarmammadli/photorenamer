@@ -70,9 +70,10 @@ public class User {
 	 * Adds selected tags to the file.
 	 * 
 	 * @param file
-	 *            the file which is tagged
+	 *            the image to tag
 	 * @param tags
-	 *            the new tags of the file
+	 *            the tags to add image file
+	 * @return true if image tagged successfully
 	 */
 	public boolean selectTag(ImageFile file, List<Tag> tags) {
 		if (tags != null && file != null) {
@@ -102,10 +103,24 @@ public class User {
 		return true;
 	}
 
-	public void deleteTagFromImage(ImageFile selectedImage, Tag tag) {
+	/**
+	 * Remove tag from the selected image
+	 * 
+	 * @param selectedImage
+	 *            the image to remove tag
+	 * @param tag
+	 *            the tag to remove from image
+	 * @return true iff the tag removed from image successfully
+	 */
+	public boolean deleteTagFromImage(ImageFile selectedImage, Tag tag) {
 		if (selectedImage != null && tag != null) {
-			selectedImage.removeTag(tag);
-		}
+			if (selectedImage.getTags().contains(tag)) {
+				selectedImage.removeTag(tag);
+				return true;
+			} else
+				return false;
+		} else
+			return false;
 	}
 
 	/**
@@ -117,7 +132,7 @@ public class User {
 	 *            the name to revert back
 	 */
 	public void revertName(ImageFile file, String name) {
-		if (file != null) {
+		if (file != null && !file.getName().equals(name)) {
 			file.changeName(name);
 		}
 	}

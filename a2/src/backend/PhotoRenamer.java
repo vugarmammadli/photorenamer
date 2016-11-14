@@ -147,7 +147,7 @@ public class PhotoRenamer {
 					String tagName = scan.nextLine();
 					tagName = scan.nextLine();
 					
-					Tag selectedTag = user.getTag(tagName);
+					Tag selectedTag = selectedImage.getTagOfImage(tagName);
 					user.deleteTagFromImage(selectedImage, selectedTag);
 					
 					System.out.println("New file name: " + selectedImage.getName());

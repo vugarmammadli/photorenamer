@@ -7,7 +7,7 @@ public class Configuration {
 	private static final String TAGS_PATH = "C:/Users/Vugar Mammadli/Desktop/csc207/group_0825/a2/src/data/tags.ser";
 	private static final String IMAGEFILE_PATH = "C:/Users/Vugar Mammadli/Desktop/csc207/group_0825/a2/src/data/imageFiles/";
 
-	/*
+	/**
 	 * Updates allTags by reading from a file
 	 */
 	public static void uploadTags() throws IOException, ClassNotFoundException {
@@ -20,7 +20,7 @@ public class Configuration {
 		}
 	}
 
-	/*
+	/**
 	 * Updates file with elements of allTags
 	 */
 	public static void saveTags() throws IOException {
@@ -31,7 +31,7 @@ public class Configuration {
 		output.close();
 	}
 
-	/*
+	/**
 	 * Updates allImagesFiles by reading from a file
 	 */
 	public static void uploadImageFiles() throws IOException, ClassNotFoundException {
@@ -45,7 +45,7 @@ public class Configuration {
 		}
 	}
 
-	/*
+	/**
 	 * Updates file with elements of allImagesFiles
 	 * 
 	 * @param selectedImage ImageFile to update its .ser file
