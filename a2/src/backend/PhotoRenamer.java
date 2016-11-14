@@ -126,7 +126,6 @@ public class PhotoRenamer {
 					user.selectTag(selectedImage, selectedTags);
 					
 					System.out.println("New file name: " + selectedImage.getName());
-					System.out.println(allFiles);
 					System.out.println("---------------------------");
 				}
 				
@@ -166,8 +165,8 @@ public class PhotoRenamer {
 					
 					ImageFile selectedImage = allFiles.get(imageId - 1);
 					
-					System.out.println(selectedImage.getName());
-					System.out.println(ImageFile.getAllImageFiles());
+//					System.out.println(selectedImage.getName());
+//					System.out.println(ImageFile.getAllImageFiles());
 					
 					System.out.println(selectedImage.getNameHistory());
 				}
