@@ -35,6 +35,11 @@ public class ImageFile implements Serializable {
 		logger.addHandler(simpleHandler);
 	}
 
+	/*
+	 * Returns nameHistory in a friendly format
+	 * 
+	 * @return string representation of nameHistory
+	 */
 	public String getNameHistory() {
 		String res = "";
 		SimpleDateFormat format = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
@@ -45,22 +50,47 @@ public class ImageFile implements Serializable {
 		return res;
 	}
 
+	/*
+	 * Returns originalName
+	 * 
+	 * @return the original name of this image file
+	 */
 	public String getOriginalName() {
 		return this.originalName;
 	}
 
+	/*
+	 * Returns tags
+	 * 
+	 * @return the list of tags for this image file
+	 */
 	public List<Tag> getTags() {
 		return this.tags;
 	}
 
+	/*
+	 * Return allImageFiles
+	 * 
+	 * @return the list of all image files
+	 */
 	public static List<ImageFile> getAllImageFiles() {
 		return allImageFiles;
 	}
 
+	/*
+	 * Sets the value of allImageFiles
+	 * 
+	 * @param allImageFiles new list of image files
+	 */
 	public static void setAllImageFiles(List<ImageFile> allImageFiles) {
 		ImageFile.allImageFiles = allImageFiles;
 	}
 
+	/*
+	 * Adds tag to this image file. Renames the file
+	 * 
+	 * @param tags new set of tags to be added for this image file
+	 */
 	public void addTag(List<Tag> tags) {
 		for (Tag tag : tags) {
 			if (!this.tags.contains(tag)) {
@@ -76,6 +106,11 @@ public class ImageFile implements Serializable {
 		}
 	}
 
+	/*
+	 * Removes tag from this image file
+	 * 
+	 * @param tag new tag to be removed for this image file
+	 */
 	public void removeTag(Tag tag) {
 		if (this.tags.contains(tag)) {
 			this.tags.remove(tag);
@@ -83,7 +118,7 @@ public class ImageFile implements Serializable {
 		}
 
 		renameFile();
-		
+
 		try {
 			Configuration.saveImageFiles(this);
 		} catch (IOException e) {
@@ -91,6 +126,11 @@ public class ImageFile implements Serializable {
 		}
 	}
 
+	/*
+	 * Reverts to a past name
+	 * 
+	 * @param name past name to revert to
+	 */
 	public void changeName(String name) {
 		if (this.nameHistory.values().contains(name)) {
 			SimpleDateFormat format = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
@@ -105,7 +145,7 @@ public class ImageFile implements Serializable {
 		}
 	}
 
-	/**
+	/*
 	 * Helper function to change file name according to tags
 	 */
 	private void renameFile() {
@@ -133,6 +173,11 @@ public class ImageFile implements Serializable {
 		this.nameHistory.put(new Date(), newFileName);
 	}
 
+	/*
+	 * Returns current name
+	 * 
+	 * @return the current name of ImageFile
+	 */
 	public String getName() {
 		List<Date> allNameDates = new ArrayList<Date>(this.nameHistory.keySet());
 		Collections.sort(allNameDates);
@@ -142,11 +187,23 @@ public class ImageFile implements Serializable {
 	}
 
 	@Override
+	/*
+	 * Returns string representation of this image file
+	 * 
+	 * @return string representation of image file
+	 */
 	public String toString() {
 		return "Image: " + this.getName();
 	}
 
 	@Override
+	/*
+	 * Returns true if two images files are equal according to name
+	 * 
+	 * @param other ImageFile object to compare to
+	 * 
+	 * @return true two ImageFile are same
+	 */
 	public boolean equals(Object other) {
 		if (other == null || !(other instanceof ImageFile))
 			return false;
