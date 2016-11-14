@@ -45,9 +45,11 @@ public class PhotoRenamer {
 			System.out.println("---------------------------");
 			System.out.println("1. See all tags");
 			System.out.println("2. Add new tag");
-			System.out.println("3. Delete new tag");
+			System.out.println("3. Delete tag");
 			System.out.println("4. View all images");
 			System.out.println("5. Tag image");
+			System.out.println("6. Delete tag from image");
+			System.out.println("7. Change name to previous one");
 			System.out.println("0. Quit");
 			System.out.println("---------------------------");
 			System.out.println("Please select one from menu: ");
@@ -155,28 +157,36 @@ public class PhotoRenamer {
 					System.out.println("---------------------------");
 				}
 				
-				if(option == 8){
+				if(option == 7){
 					System.out.println("List of all images: ");
 					for(int i = 1; i <= allFiles.size(); i++){
 						System.out.println(i + ". " + allFiles.get(i - 1));
 					}
-					System.out.println("Please enter id of image to tag: ");
+					System.out.println("Please enter id of image to change name: ");
 					int imageId = scan.nextInt();
 					
 					ImageFile selectedImage = allFiles.get(imageId - 1);
 					
-//					System.out.println(selectedImage.getName());
-//					System.out.println(ImageFile.getAllImageFiles());
-					
 					System.out.println(selectedImage.getNameHistory());
+					
+					System.out.println("Enter name you want to revert: ");
+					String name = scan.nextLine();
+					name = scan.nextLine();
+					
+					user.revertName(selectedImage, name);
+					
+					System.out.println("New file name: " + selectedImage.getName());
+					System.out.println("---------------------------");
 				}
 				
 				
 				System.out.println("1. See all tags");
 				System.out.println("2. Add new tag");
-				System.out.println("3. Delete new tag");
+				System.out.println("3. Delete tag");
 				System.out.println("4. View all images");
 				System.out.println("5. Tag image");
+				System.out.println("6. Delete tag from image");
+				System.out.println("7. Change name to previous one");
 				System.out.println("0. Quit");
 				System.out.println("---------------------------");
 				System.out.println("Please select one from menu: ");
