@@ -54,6 +54,9 @@ public class User {
 	 * @return true if the tag is not already exists and created successfully
 	 */
 	public boolean addTag(String name) {
+		if (name.isEmpty() || name == null)
+			return false;
+
 		Tag newTag = new Tag(name);
 
 		if (Tag.getAllTags().contains(newTag))
