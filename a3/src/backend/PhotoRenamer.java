@@ -27,7 +27,7 @@ public class PhotoRenamer {
 			}
 			
 			File file = fileChooser.getSelectedFile();
-			User user = new User();
+			User user = User.getInstance();
 			List<ImageFile> allFiles = user.getAllImages(file);
 			
 			if(!ImageFile.getAllImageFiles().isEmpty()){

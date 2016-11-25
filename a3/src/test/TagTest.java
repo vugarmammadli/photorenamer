@@ -37,7 +37,7 @@ public class TagTest {
 		allTags.add(uoftTag);
 		allTags.add(torontoTag);
 		allTags.add(cscTag);
-		user = new User();
+		user = User.getInstance();
 		Tag.setAllTags(new ArrayList<Tag>());
 	}
 
@@ -105,8 +105,6 @@ public class TagTest {
 		user.addTag(uoftTag.getName());
 		user.addTag(torontoTag.getName());
 		user.addTag(uoftTag.getName());
-
-		System.out.println(Tag.getAllTags());
 
 		List<Tag> actual = Tag.getAllTags();
 		this.allTags.remove(2);

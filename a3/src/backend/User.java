@@ -7,8 +7,20 @@ import java.util.*;
 import javax.activation.MimetypesFileTypeMap;
 
 public class User {
+	/**
+	 * The class is in singleton pattern. Since the user only person who is the
+	 * owner of the computer, only he can use the application to tag photos in
+	 * their computer. So only one user is needed to coordinate actions across
+	 * the app.
+	 */
 
-	public User() {
+	private static final User instance = new User();
+
+	private User() {
+	}
+
+	public static User getInstance() {
+		return instance;
 	}
 
 	/**
@@ -135,6 +147,23 @@ public class User {
 		if (file != null && !file.getName().equals(name)) {
 			file.changeName(name);
 		}
+	}
+
+	/**
+	 * Returns the most common tag.
+	 * 
+	 * @return the most common tag that files tagged.
+	 */
+	public Tag getMostCommonTag() {
+		if (!Tag.getAllTags().isEmpty()) {
+			Tag tag = Tag.getAllTags().get(0);
+			for (Tag t : Tag.getAllTags()) {
+				if (t.getNumUsed() > tag.getNumUsed())
+					tag = t;
+			}
+			return tag;
+		}
+		return null;
 	}
 
 	/**
