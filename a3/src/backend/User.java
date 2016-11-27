@@ -6,14 +6,13 @@ import java.util.*;
 
 import javax.activation.MimetypesFileTypeMap;
 
+/**
+ * The class is in singleton pattern.
+ * 
+ * @author Vugar Mammadli
+ *
+ */
 public class User {
-	/**
-	 * The class is in singleton pattern. Since the user only person who is the
-	 * owner of the computer, only he can use the application to tag photos in
-	 * their computer. So only one user is needed to coordinate actions across
-	 * the app.
-	 */
-
 	private static final User instance = new User();
 
 	private User() {
@@ -33,6 +32,7 @@ public class User {
 	public List<ImageFile> getAllImages(File directory) {
 		List<ImageFile> allImages = new ArrayList<>();
 
+		// recursively get all image files from the directory
 		for (File file : directory.listFiles()) {
 			if (file.isFile()) {
 				if (checkImageType(file)) {
@@ -43,14 +43,31 @@ public class User {
 			}
 		}
 
+		// uploads all previously saved image files
+		try {
+			Configuration.uploadImageFiles();
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+
+		// if the image tagged before, sets image file to uploaded image file
+		if (!ImageFile.getAllImageFiles().isEmpty()) {
+			for (ImageFile f : ImageFile.getAllImageFiles()) {
+				for (ImageFile f2 : allImages) {
+					if (f.getName().equals(f2.getName()))
+						allImages.set(allImages.indexOf(f2), f);
+				}
+			}
+		}
+
 		return allImages;
 	}
 
 	/**
-	 * Creates new tag with the name
+	 * Creates a new tag with the given name
 	 * 
 	 * @param name
-	 *            the name of new tag
+	 *            the name of the new tag
 	 * @return true if the tag is not already exists and created successfully
 	 */
 	public boolean addTag(String name) {
@@ -63,14 +80,22 @@ public class User {
 			return false;
 
 		Tag.getAllTags().add(newTag);
+
+		// saves the master list of tags.
+		try {
+			Configuration.saveTags();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
 		return true;
 	}
 
 	/**
-	 * Returns tag with the name
+	 * Returns tag according to the name
 	 * 
 	 * @param name
-	 *            the name of the searched tag
+	 *            the name of the tag
 	 * @return Tag if there is a tag with the name, otherwise null.
 	 */
 	public Tag getTag(String name) {
@@ -85,10 +110,10 @@ public class User {
 	 * Adds selected tags to the file.
 	 * 
 	 * @param file
-	 *            the image to tag
+	 *            the image file to tag
 	 * @param tags
-	 *            the tags to add image file
-	 * @return true if image tagged successfully
+	 *            the list of tags to add the image file
+	 * @return true iff image tagged successfully
 	 */
 	public boolean selectTag(ImageFile file, List<Tag> tags) {
 		if (tags != null && file != null) {
@@ -97,10 +122,18 @@ public class User {
 					return false;
 			}
 			file.addTag(tags);
+
+			// saves the master list of tags.
+			try {
+				Configuration.saveTags();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/**
@@ -115,14 +148,22 @@ public class User {
 			return false;
 
 		Tag.getAllTags().remove(tag);
+
+		// saves the master list of tags.
+		try {
+			Configuration.saveTags();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
 		return true;
 	}
 
 	/**
-	 * Remove tag from the selected image
+	 * Removes tag from the selected image file.
 	 * 
 	 * @param selectedImage
-	 *            the image to remove tag
+	 *            the image to remove tag from
 	 * @param tag
 	 *            the tag to remove from image
 	 * @return true iff the tag removed from image successfully
@@ -131,15 +172,24 @@ public class User {
 		if (selectedImage != null && tag != null) {
 			if (selectedImage.getTags().contains(tag)) {
 				selectedImage.removeTag(tag);
+
+				// saves the master list of tags.
+				try {
+					Configuration.saveTags();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+
 				return true;
 			} else
 				return false;
-		} else
-			return false;
+		}
+
+		return false;
 	}
 
 	/**
-	 * Reverts the name of the file to selected name
+	 * Reverts the name of the file to selected name.
 	 * 
 	 * @param file
 	 *            the file that is changed
