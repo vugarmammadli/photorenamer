@@ -3,7 +3,11 @@ package photo_renamer;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,22 +19,31 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import backend.Configuration;
+import backend.ImageFile;
 import backend.Tag;
 import backend.User;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
-public class AllTags extends JFrame {
+public class DeleteTagFromImage extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
 	private JScrollPane scrollPane;
 	private User user;
+	private ImageFile selectedImage;
 
 	/**
 	 * Create the frame.
 	 */
-	public AllTags() {
+	public DeleteTagFromImage(ImageFile image) {
+		selectedImage = image;
+
+		if (!ImageFile.getAllImageFiles().isEmpty()) {
+			for (ImageFile f : ImageFile.getAllImageFiles()) {
+				if (f.getName().equals(image.getName()))
+					selectedImage = f;
+			}
+		}
+
 		try {
 			Configuration.uploadTags();
 		} catch (ClassNotFoundException | IOException e) {
@@ -58,35 +71,23 @@ public class AllTags extends JFrame {
 		table = createTable();
 		scrollPane.setViewportView(table);
 
-		JButton btnAddNewTag = new JButton("Add new tag");
+		JButton btnAddNewTag = new JButton("Delete tag from image");
 		btnAddNewTag.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				AddNewTag addNewTagFrame = new AddNewTag();
-				addNewTagFrame.setVisible(true);
-			}
-		});
-		btnAddNewTag.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnAddNewTag.setBounds(316, 227, 108, 23);
-		contentPane.add(btnAddNewTag);
-
-		JButton btnDeleteSelectedTags = new JButton("Delete selected tags");
-		btnDeleteSelectedTags.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for (int i = 0; i < table.getRowCount(); i++) {
 					Boolean isChecked = Boolean.valueOf(table.getValueAt(i, 0).toString());
 
 					if (isChecked)
-						user.deleteTag(user.getTag(table.getValueAt(i, 1).toString()));
-				}
+						user.deleteTagFromImage(selectedImage, user.getTag(table.getValueAt(i, 1).toString()));
 
+				}
 				setVisible(false);
-				new AllTags().setVisible(true);
+				new PhotoRenamer().setVisible(true);
 			}
 		});
-		btnDeleteSelectedTags.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnDeleteSelectedTags.setBounds(10, 228, 152, 23);
-		contentPane.add(btnDeleteSelectedTags);
+		btnAddNewTag.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnAddNewTag.setBounds(229, 227, 195, 23);
+		contentPane.add(btnAddNewTag);
 	}
 
 	private JTable createTable() {
@@ -98,9 +99,9 @@ public class AllTags extends JFrame {
 			}
 		};
 
-		for (int i = 0; i < Tag.getAllTags().size(); i++) {
-			String name = Tag.getAllTags().get(i).getName();
-			int numOfUsed = Tag.getAllTags().get(i).getNumUsed();
+		for (int i = 0; i < selectedImage.getTags().size(); i++) {
+			String name = selectedImage.getTags().get(i).getName();
+			int numOfUsed = selectedImage.getTags().get(i).getNumUsed();
 			Object[] data = { false, name, numOfUsed };
 			tableModel.addRow(data);
 		}
@@ -112,8 +113,8 @@ public class AllTags extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		AllTags frame = new AllTags();
-		frame.setVisible(true);
-	}
+	// public static void main(String[] args) {
+	// DeleteTagFromImage frame = new DeleteTagFromImage();
+	// frame.setVisible(true);
+	// }
 }

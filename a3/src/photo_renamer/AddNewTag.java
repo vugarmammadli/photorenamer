@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import backend.Configuration;
+import backend.ImageFile;
 import backend.User;
 
 import javax.swing.JLabel;
@@ -54,15 +55,9 @@ public class AddNewTag extends JFrame {
 		textFieldTagName.setColumns(10);
 
 		btnAdd = new JButton("Add");
-
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				user.addTag(textFieldTagName.getText());
-				try {
-					Configuration.saveTags();
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
 				contentPane.setVisible(false);
 				dispose();
 				AllTags allTags = new AllTags();
