@@ -88,6 +88,16 @@ public class DeleteTagFromImage extends JFrame {
 		btnAddNewTag.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAddNewTag.setBounds(229, 227, 195, 23);
 		contentPane.add(btnAddNewTag);
+
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new PhotoRenamer().setVisible(true);
+			}
+		});
+		btnBack.setBounds(10, 227, 89, 23);
+		contentPane.add(btnBack);
 	}
 
 	private JTable createTable() {

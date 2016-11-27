@@ -87,6 +87,16 @@ public class AllTags extends JFrame {
 		btnDeleteSelectedTags.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnDeleteSelectedTags.setBounds(10, 228, 152, 23);
 		contentPane.add(btnDeleteSelectedTags);
+
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new PhotoRenamer().setVisible(true);
+			}
+		});
+		btnBack.setBounds(10, 9, 89, 23);
+		contentPane.add(btnBack);
 	}
 
 	private JTable createTable() {

@@ -4,8 +4,8 @@ import java.io.*;
 import java.util.*;
 
 public class Configuration {
-	private static final String TAGS_PATH = "C:/Users/Vugar Mammadli/Desktop/csc207/group_0825/a3/src/data/tags.ser";
-	private static final String IMAGEFILE_PATH = "C:/Users/Vugar Mammadli/Desktop/csc207/group_0825/a3/src/data/imageFiles/";
+	private static final String TAGS_PATH = "src/data/tags.ser";
+	private static final String IMAGEFILE_PATH = "src/data/imageFiles/";
 
 	/**
 	 * Updates allTags by reading from a file
@@ -48,7 +48,8 @@ public class Configuration {
 	/**
 	 * Updates file with elements of allImagesFiles
 	 * 
-	 * @param selectedImage ImageFile to update its .ser file
+	 * @param selectedImage
+	 *            ImageFile to update its .ser file
 	 */
 	public static void saveImageFiles(ImageFile selectedImage) throws IOException {
 		OutputStream file = new FileOutputStream(IMAGEFILE_PATH + selectedImage.getOriginalName() + ".ser");

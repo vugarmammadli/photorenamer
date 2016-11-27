@@ -71,6 +71,15 @@ public class RevertNameFrame extends JFrame {
 			}
 		});
 		buttonPanel.add(btnRevertName, BorderLayout.EAST);
+
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new PhotoRenamer().setVisible(true);
+			}
+		});
+		buttonPanel.add(btnBack, BorderLayout.WEST);
 	}
 
 	// /**

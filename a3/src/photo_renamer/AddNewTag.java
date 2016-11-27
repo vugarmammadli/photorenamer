@@ -68,6 +68,12 @@ public class AddNewTag extends JFrame {
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAdd.setBounds(229, 85, 89, 23);
 		contentPane.add(btnAdd);
+
+		FrameChangeButton btnBack = new FrameChangeButton("Back");
+		btnBack.addObserver(new FrameChangeButtonListener(this, new AllTags()));
+		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnBack.setBounds(10, 85, 89, 23);
+		contentPane.add(btnBack);
 	}
 
 	/**

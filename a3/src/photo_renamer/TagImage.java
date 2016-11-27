@@ -89,6 +89,16 @@ public class TagImage extends JFrame {
 		btnAddNewTag.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAddNewTag.setBounds(272, 227, 152, 23);
 		contentPane.add(btnAddNewTag);
+
+		JButton btnBack = new JButton("Back");
+		btnBack.setBounds(10, 228, 89, 23);
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new PhotoRenamer().setVisible(true);
+			}
+		});
+		contentPane.add(btnBack);
 	}
 
 	private JTable createTable() {
