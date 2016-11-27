@@ -4,8 +4,8 @@ import java.io.*;
 import java.util.*;
 
 public class Configuration {
-	private static final String TAGS_PATH = "/h/u14/c4/00/mammadl4/csc207/group_0825/a3/src/data/tags.ser";
-	private static final String IMAGEFILE_PATH = "/h/u14/c4/00/mammadl4/csc207/group_0825/a3/src/data/imageFiles/";
+	private static final String TAGS_PATH = "./data/tags.ser";
+	private static final String IMAGEFILE_PATH = "./data/imageFiles/";
 
 	/**
 	 * Updates allTags by reading from a file

@@ -228,7 +228,7 @@ public class ImageFile implements Serializable {
 		SimpleDateFormat format = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 
 		try {
-			simpleHandler = new FileHandler("src/data/log.txt", true);
+			simpleHandler = new FileHandler("./data/log.txt", true);
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
 		}
