@@ -37,12 +37,14 @@ public class Configuration {
 	public static void uploadImageFiles() throws IOException, ClassNotFoundException {
 		ImageFile.setAllImageFiles(new ArrayList<ImageFile>());
 		File f = new File(IMAGEFILE_PATH);
-		for (File eachFile : f.listFiles()) {
-			if(!eachFile.getName().equals(".gitkeep")){
-				InputStream file = new FileInputStream(eachFile);
-				InputStream buffer = new BufferedInputStream(file);
-				ObjectInput input = new ObjectInputStream(buffer);
-				ImageFile.getAllImageFiles().add(((ImageFile) input.readObject()));
+		if(f.listFiles() != null){
+			for (File eachFile : f.listFiles()) {
+				if(!eachFile.getName().equals(".gitkeep")){
+					InputStream file = new FileInputStream(eachFile);
+					InputStream buffer = new BufferedInputStream(file);
+					ObjectInput input = new ObjectInputStream(buffer);
+					ImageFile.getAllImageFiles().add(((ImageFile) input.readObject()));
+				}
 			}
 		}
 	}
