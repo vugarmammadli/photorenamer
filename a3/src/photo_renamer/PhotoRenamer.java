@@ -11,7 +11,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import backend.Configuration;
 import backend.ImageFile;
 import backend.Tag;
 import backend.User;
@@ -25,7 +24,6 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.SwingConstants;
@@ -37,9 +35,9 @@ import javax.swing.JScrollPane;
 
 public class PhotoRenamer extends JFrame {
 
+	private static File directory = null;
 	private JPanel contentPane;
 	private JPanel imageBtnPanels;
-	private static File directory = null;
 	private JLabel lblImageName, lblImage;
 	private JTextArea txtlblImageTags;
 	private JTextArea txtImageHistory;
@@ -50,6 +48,7 @@ public class PhotoRenamer extends JFrame {
 	 * Create the frame.
 	 */
 	public PhotoRenamer() {
+		// if it is first time application runs, asks to choose directory.
 		if (directory == null)
 			getDirectory();
 
@@ -60,19 +59,21 @@ public class PhotoRenamer extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 
+		// welcome message label
 		JLabel lblWelcome = new JLabel("Welcome to photo renamer!");
 		lblWelcome.setFont(new Font("Tahoma", Font.BOLD, 24));
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblWelcome, BorderLayout.NORTH);
 
+		// gets all image files under directory and populate jlist with them.
 		List<ImageFile> allFiles = User.getInstance().getAllImages(directory);
-
 		JList<ImageFile> listOfImages = new JList(allFiles.toArray());
 		listOfImages.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listOfImages.setFixedCellWidth(200);
 		contentPane.add(listOfImages, BorderLayout.WEST);
 
-		JPanel buttonPanel = new JPanel();
+		// menu buttons
+		ButtonPanel buttonPanel = new ButtonPanel();
 		contentPane.add(buttonPanel, BorderLayout.SOUTH);
 
 		JButton btnSeeAllTags = new JButton("See all tags");
@@ -85,19 +86,18 @@ public class PhotoRenamer extends JFrame {
 		buttonPanel.add(btnSeeAllTags);
 
 		JButton btnExit = new JButton("Exit");
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
+		buttonPanel.addButtonToListen(btnExit);
 		buttonPanel.add(btnExit);
 
+		// panel to display image information according to selected image.
 		JPanel imgPanel = new JPanel(new BorderLayout(0, 0));
 		contentPane.add(imgPanel, BorderLayout.CENTER);
 
-		lblImage = new JLabel("");
+		// displays image
+		lblImage = new JLabel();
 		imgPanel.add(lblImage, BorderLayout.WEST);
 
+		// inner panel for details about image file.
 		JPanel imageInfoPanel = new JPanel(new GridLayout(4, 0));
 		imageInfoPanel.setVisible(false);
 		imgPanel.add(imageInfoPanel, BorderLayout.EAST);
@@ -105,6 +105,7 @@ public class PhotoRenamer extends JFrame {
 		lblImageName = new JLabel();
 		imageInfoPanel.add(lblImageName);
 
+		// displays list of tags of image.
 		txtlblImageTags = new JTextArea();
 		txtlblImageTags.setEditable(false);
 		txtlblImageTags.setLineWrap(true);
@@ -112,17 +113,18 @@ public class PhotoRenamer extends JFrame {
 		scrollPane = new JScrollPane(txtlblImageTags);
 		imageInfoPanel.add(scrollPane);
 
+		// displays name history of image.
 		txtImageHistory = new JTextArea();
 		txtImageHistory.setEditable(false);
 		txtImageHistory.setLineWrap(true);
 		scrollPane = new JScrollPane(txtImageHistory);
 		imageInfoPanel.add(scrollPane);
 
+		// inner panel for functionality buttons of image.
 		imageBtnPanels = new JPanel();
-
 		imageInfoPanel.add(imageBtnPanels);
 
-		JButton btnAddTag = new JButton("Add tag to image");	
+		JButton btnAddTag = new JButton("Add tag to image");
 		btnAddTag.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -149,8 +151,8 @@ public class PhotoRenamer extends JFrame {
 		});
 		imageBtnPanels.add(btnDeleteTag);
 
+		// sets selected image according to jlist
 		listOfImages.addListSelectionListener(new ListSelectionListener() {
-
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				imageInfoPanel.setVisible(true);
@@ -161,6 +163,12 @@ public class PhotoRenamer extends JFrame {
 		});
 	}
 
+	/**
+	 * Helper function to display details of selected image.
+	 * 
+	 * @param selectedImage
+	 *            the image file to display information about.
+	 */
 	private void populateImagePanel(ImageFile selectedImage) {
 		Image img = null;
 		try {
@@ -183,6 +191,9 @@ public class PhotoRenamer extends JFrame {
 		this.txtImageHistory.setText("Name history: \n" + selectedImage.getNameHistory());
 	}
 
+	/**
+	 * Helper function to ask user to choose directory.
+	 */
 	private void getDirectory() {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);

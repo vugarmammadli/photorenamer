@@ -1,7 +1,5 @@
 package photo_renamer;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,13 +13,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 
 import backend.Configuration;
 import backend.ImageFile;
 import backend.Tag;
 import backend.User;
 
+/**
+ * The frame to display all tags and add selected ones to selected image.
+ * 
+ * @author Vugar Mammadli
+ *
+ */
 public class TagImageFrame extends JFrame {
 
 	private JPanel contentPane;
@@ -35,7 +38,8 @@ public class TagImageFrame extends JFrame {
 	 */
 	public TagImageFrame(ImageFile image) {
 		selectedImage = image;
-		System.out.println(image);
+
+		// checks if the selected image already changed
 		if (!ImageFile.getAllImageFiles().isEmpty()) {
 			for (ImageFile f : ImageFile.getAllImageFiles()) {
 				if (f.getName().equals(image.getName()))
@@ -67,20 +71,25 @@ public class TagImageFrame extends JFrame {
 		scrollPane.setBounds(10, 45, 414, 171);
 		contentPane.add(scrollPane);
 
-		table = createTable();
+		// creates table and populate it with list of all tags.
+		table = TagTable.createTable(Tag.getAllTags());
 		scrollPane.setViewportView(table);
 
 		JButton btnAddNewTag = new JButton("Add tag to image");
+		// if there is no tags, disable button
+		if (Tag.getAllTags().isEmpty())
+			btnAddNewTag.setEnabled(false);
 		btnAddNewTag.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				List<Tag> selectedTags = new ArrayList<Tag>();
 				for (int i = 0; i < table.getRowCount(); i++) {
+					// gets checked tags of the table
 					Boolean isChecked = Boolean.valueOf(table.getValueAt(i, 0).toString());
 
 					if (isChecked)
 						selectedTags.add(user.getTag(table.getValueAt(i, 1).toString()));
-
 				}
+				// adds selected tags from the table to the selected image
 				user.selectTag(selectedImage, selectedTags);
 				setVisible(false);
 				new PhotoRenamer().setVisible(true);
@@ -100,25 +109,4 @@ public class TagImageFrame extends JFrame {
 		});
 		contentPane.add(btnBack);
 	}
-
-	private JTable createTable() {
-		String col[] = { "", "Tag name", "Usage Number" };
-		DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
-			@Override
-			public Class getColumnClass(int column) {
-				return column == 0 ? Boolean.class : String.class;
-			}
-		};
-
-		for (int i = 0; i < Tag.getAllTags().size(); i++) {
-			String name = Tag.getAllTags().get(i).getName();
-			int numOfUsed = Tag.getAllTags().get(i).getNumUsed();
-			Object[] data = { false, name, numOfUsed };
-			tableModel.addRow(data);
-		}
-
-		JTable table = new JTable(tableModel);
-		return table;
-	}
-
 }

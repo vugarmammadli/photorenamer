@@ -1,13 +1,9 @@
 package photo_renamer;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,13 +12,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 
 import backend.Configuration;
 import backend.ImageFile;
-import backend.Tag;
 import backend.User;
 
+/**
+ * Frame to display selected image tags and delete selected ones from the image.
+ *
+ */
 public class DeleteTagFromImageFrame extends JFrame {
 
 	private JPanel contentPane;
@@ -37,6 +35,7 @@ public class DeleteTagFromImageFrame extends JFrame {
 	public DeleteTagFromImageFrame(ImageFile image) {
 		selectedImage = image;
 
+		// checks if the selected image already changed
 		if (!ImageFile.getAllImageFiles().isEmpty()) {
 			for (ImageFile f : ImageFile.getAllImageFiles()) {
 				if (f.getName().equals(image.getName()))
@@ -68,18 +67,22 @@ public class DeleteTagFromImageFrame extends JFrame {
 		scrollPane.setBounds(10, 45, 414, 171);
 		contentPane.add(scrollPane);
 
-		table = createTable();
+		// creates table and populate it with list of all tags of selected image
+		table = TagTable.createTable(selectedImage.getTags());
 		scrollPane.setViewportView(table);
 
 		JButton btnAddNewTag = new JButton("Delete tag from image");
+		// if there is no tags, disable button
+		if (selectedImage.getTags().isEmpty())
+			btnAddNewTag.setEnabled(false);
 		btnAddNewTag.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// delete checked tags of the table from selected image.
 				for (int i = 0; i < table.getRowCount(); i++) {
 					Boolean isChecked = Boolean.valueOf(table.getValueAt(i, 0).toString());
 
 					if (isChecked)
 						user.deleteTagFromImage(selectedImage, user.getTag(table.getValueAt(i, 1).toString()));
-
 				}
 				setVisible(false);
 				new PhotoRenamer().setVisible(true);
@@ -99,32 +102,4 @@ public class DeleteTagFromImageFrame extends JFrame {
 		btnBack.setBounds(10, 227, 89, 23);
 		contentPane.add(btnBack);
 	}
-
-	private JTable createTable() {
-		String col[] = { "", "Tag name", "Usage Number" };
-		DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
-			@Override
-			public Class getColumnClass(int column) {
-				return column == 0 ? Boolean.class : String.class;
-			}
-		};
-
-		for (int i = 0; i < selectedImage.getTags().size(); i++) {
-			String name = selectedImage.getTags().get(i).getName();
-			int numOfUsed = selectedImage.getTags().get(i).getNumUsed();
-			Object[] data = { false, name, numOfUsed };
-			tableModel.addRow(data);
-		}
-
-		JTable table = new JTable(tableModel);
-		return table;
-	}
-
-	/**
-	 * Launch the application.
-	 */
-	// public static void main(String[] args) {
-	// DeleteTagFromImage frame = new DeleteTagFromImage();
-	// frame.setVisible(true);
-	// }
 }

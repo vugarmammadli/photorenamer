@@ -1,7 +1,5 @@
 package photo_renamer;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.io.IOException;
 
@@ -20,6 +18,10 @@ import backend.User;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Frame to display all tags.
+ *
+ */
 public class AllTagsFrame extends JFrame {
 
 	private JPanel contentPane;
@@ -31,6 +33,7 @@ public class AllTagsFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public AllTagsFrame() {
+		// Uploads existed tags
 		try {
 			Configuration.uploadTags();
 		} catch (ClassNotFoundException | IOException e) {
@@ -55,7 +58,8 @@ public class AllTagsFrame extends JFrame {
 		scrollPane.setBounds(10, 45, 414, 171);
 		contentPane.add(scrollPane);
 
-		table = createTable();
+		// creates table and populate it with list of all tags
+		table = TagTable.createTable(Tag.getAllTags());
 		scrollPane.setViewportView(table);
 
 		JButton btnAddNewTag = new JButton("Add new tag");
@@ -97,33 +101,5 @@ public class AllTagsFrame extends JFrame {
 		});
 		btnBack.setBounds(10, 9, 89, 23);
 		contentPane.add(btnBack);
-	}
-
-	private JTable createTable() {
-		String col[] = { "", "Tag name", "Usage Number" };
-		DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
-			@Override
-			public Class getColumnClass(int column) {
-				return column == 0 ? Boolean.class : String.class;
-			}
-		};
-
-		for (int i = 0; i < Tag.getAllTags().size(); i++) {
-			String name = Tag.getAllTags().get(i).getName();
-			int numOfUsed = Tag.getAllTags().get(i).getNumUsed();
-			Object[] data = { false, name, numOfUsed };
-			tableModel.addRow(data);
-		}
-
-		JTable table = new JTable(tableModel);
-		return table;
-	}
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		AllTagsFrame frame = new AllTagsFrame();
-		frame.setVisible(true);
 	}
 }

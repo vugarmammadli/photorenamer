@@ -21,6 +21,11 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * The frame to display name history of selected images and revert back to one
+ * of the selected one.
+ *
+ */
 public class RevertNameFrame extends JFrame {
 
 	private JPanel contentPane;
@@ -44,25 +49,17 @@ public class RevertNameFrame extends JFrame {
 		lblNameHistory.setFont(new Font("Calibri", Font.BOLD, 24));
 		contentPane.add(lblNameHistory, BorderLayout.NORTH);
 
+		// displays list of all name changes one by one.
 		JList<String> listOfNames = new JList(selectedImage.getNameHistory().split("\n"));
 		listOfNames.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		contentPane.add(listOfNames, BorderLayout.CENTER);
-
-		listOfNames.addListSelectionListener(new ListSelectionListener() {
-
-			@Override
-			public void valueChanged(ListSelectionEvent arg0) {
-				selectedName = listOfNames.getSelectedValue();
-				selectedName = selectedName.split("Name: ")[1];
-			}
-
-		});
 
 		JPanel buttonPanel = new JPanel();
 		contentPane.add(buttonPanel, BorderLayout.SOUTH);
 		buttonPanel.setLayout(new BorderLayout(0, 0));
 
 		JButton btnRevertName = new JButton("Revert name");
+		btnRevertName.setEnabled(false);
 		btnRevertName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				User.getInstance().revertName(selectedImage, selectedName);
@@ -80,13 +77,15 @@ public class RevertNameFrame extends JFrame {
 			}
 		});
 		buttonPanel.add(btnBack, BorderLayout.WEST);
-	}
 
-	// /**
-	// * Launch the application.
-	// */
-	// public static void main(String[] args) {
-	// RevertNameFrame frame = new RevertNameFrame();
-	// frame.setVisible(true);
-	// }
+		// sets selected name according to jlist.
+		listOfNames.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				btnRevertName.setEnabled(true);
+				selectedName = listOfNames.getSelectedValue();
+				selectedName = selectedName.split("Name: ")[1];
+			}
+		});
+	}
 }

@@ -1,14 +1,9 @@
 package photo_renamer;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import backend.Configuration;
-import backend.ImageFile;
 import backend.User;
 
 import javax.swing.JLabel;
@@ -16,9 +11,11 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.awt.event.ActionEvent;
 
+/**
+ * Frame to add new tag to the master list of tags.
+ */
 public class AddNewTagFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -27,7 +24,7 @@ public class AddNewTagFrame extends JFrame {
 	private User user;
 
 	/**
-	 * Create the frame.
+	 * Creates the frame.
 	 */
 	public AddNewTagFrame() {
 		user = User.getInstance();
@@ -79,13 +76,5 @@ public class AddNewTagFrame extends JFrame {
 		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnBack.setBounds(10, 85, 89, 23);
 		contentPane.add(btnBack);
-	}
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		AddNewTagFrame frame = new AddNewTagFrame();
-		frame.setVisible(true);
 	}
 }

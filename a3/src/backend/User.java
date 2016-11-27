@@ -116,7 +116,7 @@ public class User {
 	 * @return true iff image tagged successfully
 	 */
 	public boolean selectTag(ImageFile file, List<Tag> tags) {
-		if (tags != null && file != null) {
+		if (tags != null && !tags.isEmpty() && file != null) {
 			for (Tag t : tags) {
 				if (!Tag.getAllTags().contains(t))
 					return false;
