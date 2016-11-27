@@ -71,13 +71,17 @@ public class PhotoRenamer extends JFrame {
 		listOfImages.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listOfImages.setFixedCellWidth(200);
 		contentPane.add(listOfImages, BorderLayout.WEST);
-		selectedImage = listOfImages.getModel().getElementAt(0);
 
 		JPanel buttonPanel = new JPanel();
 		contentPane.add(buttonPanel, BorderLayout.SOUTH);
 
-		FrameChangeButton btnSeeAllTags = new FrameChangeButton("See all tags");
-		btnSeeAllTags.addObserver(new FrameChangeButtonListener(this, new AllTags()));
+		JButton btnSeeAllTags = new JButton("See all tags");
+		btnSeeAllTags.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new AllTagsFrame().setVisible(true);
+			}
+		});
 		buttonPanel.add(btnSeeAllTags);
 
 		JButton btnExit = new JButton("Exit");
@@ -118,16 +122,31 @@ public class PhotoRenamer extends JFrame {
 
 		imageInfoPanel.add(imageBtnPanels);
 
-		FrameChangeButton btnAddTag = new FrameChangeButton("Add tag to image");
-		btnAddTag.addObserver(new FrameChangeButtonListener(this, new TagImage(selectedImage)));
+		JButton btnAddTag = new JButton("Add tag to image");	
+		btnAddTag.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new TagImageFrame(selectedImage).setVisible(true);
+			}
+		});
 		imageBtnPanels.add(btnAddTag);
 
-		FrameChangeButton btnRevertName = new FrameChangeButton("Revert name of image");
-		btnRevertName.addObserver(new FrameChangeButtonListener(this, new RevertNameFrame(selectedImage)));
+		JButton btnRevertName = new JButton("Revert name of image");
+		btnRevertName.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new RevertNameFrame(selectedImage).setVisible(true);
+			}
+		});
 		imageBtnPanels.add(btnRevertName);
 
-		FrameChangeButton btnDeleteTag = new FrameChangeButton("Delete tag from image");
-		btnDeleteTag.addObserver(new FrameChangeButtonListener(this, new DeleteTagFromImage(selectedImage)));
+		JButton btnDeleteTag = new JButton("Delete tag from image");
+		btnDeleteTag.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new DeleteTagFromImageFrame(selectedImage).setVisible(true);
+			}
+		});
 		imageBtnPanels.add(btnDeleteTag);
 
 		listOfImages.addListSelectionListener(new ListSelectionListener() {

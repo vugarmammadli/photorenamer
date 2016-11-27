@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
-public class AddNewTag extends JFrame {
+public class AddNewTagFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldTagName;
@@ -29,7 +29,7 @@ public class AddNewTag extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AddNewTag() {
+	public AddNewTagFrame() {
 		user = User.getInstance();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 346, 166);
@@ -60,7 +60,7 @@ public class AddNewTag extends JFrame {
 				user.addTag(textFieldTagName.getText());
 				contentPane.setVisible(false);
 				dispose();
-				AllTags allTags = new AllTags();
+				AllTagsFrame allTags = new AllTagsFrame();
 				allTags.setVisible(true);
 			}
 		});
@@ -69,8 +69,13 @@ public class AddNewTag extends JFrame {
 		btnAdd.setBounds(229, 85, 89, 23);
 		contentPane.add(btnAdd);
 
-		FrameChangeButton btnBack = new FrameChangeButton("Back");
-		btnBack.addObserver(new FrameChangeButtonListener(this, new AllTags()));
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new AllTagsFrame().setVisible(true);
+			}
+		});
 		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnBack.setBounds(10, 85, 89, 23);
 		contentPane.add(btnBack);
@@ -80,7 +85,7 @@ public class AddNewTag extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		AddNewTag frame = new AddNewTag();
+		AddNewTagFrame frame = new AddNewTagFrame();
 		frame.setVisible(true);
 	}
 }

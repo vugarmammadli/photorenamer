@@ -6,7 +6,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,7 +23,7 @@ import backend.ImageFile;
 import backend.Tag;
 import backend.User;
 
-public class TagImage extends JFrame {
+public class DeleteTagFromImageFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
@@ -33,7 +34,7 @@ public class TagImage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TagImage(ImageFile image) {
+	public DeleteTagFromImageFrame(ImageFile image) {
 		selectedImage = image;
 
 		if (!ImageFile.getAllImageFiles().isEmpty()) {
@@ -70,34 +71,32 @@ public class TagImage extends JFrame {
 		table = createTable();
 		scrollPane.setViewportView(table);
 
-		JButton btnAddNewTag = new JButton("Add tag to image");
+		JButton btnAddNewTag = new JButton("Delete tag from image");
 		btnAddNewTag.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				List<Tag> selectedTags = new ArrayList<Tag>();
 				for (int i = 0; i < table.getRowCount(); i++) {
 					Boolean isChecked = Boolean.valueOf(table.getValueAt(i, 0).toString());
 
 					if (isChecked)
-						selectedTags.add(user.getTag(table.getValueAt(i, 1).toString()));
+						user.deleteTagFromImage(selectedImage, user.getTag(table.getValueAt(i, 1).toString()));
 
 				}
-				user.selectTag(selectedImage, selectedTags);
 				setVisible(false);
 				new PhotoRenamer().setVisible(true);
 			}
 		});
 		btnAddNewTag.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnAddNewTag.setBounds(272, 227, 152, 23);
+		btnAddNewTag.setBounds(229, 227, 195, 23);
 		contentPane.add(btnAddNewTag);
 
 		JButton btnBack = new JButton("Back");
-		btnBack.setBounds(10, 228, 89, 23);
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				new PhotoRenamer().setVisible(true);
 			}
 		});
+		btnBack.setBounds(10, 227, 89, 23);
 		contentPane.add(btnBack);
 	}
 
@@ -110,9 +109,9 @@ public class TagImage extends JFrame {
 			}
 		};
 
-		for (int i = 0; i < Tag.getAllTags().size(); i++) {
-			String name = Tag.getAllTags().get(i).getName();
-			int numOfUsed = Tag.getAllTags().get(i).getNumUsed();
+		for (int i = 0; i < selectedImage.getTags().size(); i++) {
+			String name = selectedImage.getTags().get(i).getName();
+			int numOfUsed = selectedImage.getTags().get(i).getNumUsed();
 			Object[] data = { false, name, numOfUsed };
 			tableModel.addRow(data);
 		}
@@ -121,4 +120,11 @@ public class TagImage extends JFrame {
 		return table;
 	}
 
+	/**
+	 * Launch the application.
+	 */
+	// public static void main(String[] args) {
+	// DeleteTagFromImage frame = new DeleteTagFromImage();
+	// frame.setVisible(true);
+	// }
 }

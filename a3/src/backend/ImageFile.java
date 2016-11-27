@@ -119,13 +119,15 @@ public class ImageFile implements Serializable {
 			if (!this.tags.contains(tag)) {
 				this.tags.add(tag);
 				tag.setNumUsed(tag.getNumUsed() + 1);
+				
+				renameFile();
+				
+				try {
+					Configuration.saveImageFiles(this);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-		}
-		renameFile();
-		try {
-			Configuration.saveImageFiles(this);
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 
