@@ -56,4 +56,8 @@ On the command line, follow this sequence of commands to run the application.
 `git clone https://github.com/vugarmammadli/photorenamer.git`  
 `cd photorenamer`  
 `javac photo_renamer/PhotoRenamer.java`  
-`java photo_renamer/PhotoRenamer`  
+`java photo_renamer/PhotoRenamer`
+
+## Extra details
+
+Please refer to [CRC Cards](./crc-cards.pdf) to see the CRC design and analysis.
