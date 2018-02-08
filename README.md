@@ -24,7 +24,7 @@ When PhotoRenamer is first run, it should create any configuration files that it
 
 - Revert all changes to a particular date.
 
-### Learning objectives
+## Learning objectives
 - Write a full-fledged "real" application
 
 - Design and work with a configuration file
@@ -45,7 +45,7 @@ When PhotoRenamer is first run, it should create any configuration files that it
 
 - Think about the implications of exceptions on the user experience
 
-### Notes on programming style
+## Notes on programming style
 
 The Java naming conventions must be used. Other than that, because there is no starter code, you can develop your own coding style.
 
