@@ -49,13 +49,13 @@ When PhotoRenamer is first run, it should create any configuration files that it
 
 The Java naming conventions must be used. Other than that, because there is no starter code, you can develop your own coding style.
 
-You must write full Javadoc for your methods, including @param, @return, and @throws. Include @Override tags where appropriate.
+You must write full Javadoc for your methods, including `@param`, `@return`, and `@throws`. Include` @Override` tags where appropriate.
 
 ## How to run
 
 On the command line, follow this sequence of commands to run the application.
 
-`git clone https://github.com/vugarmammadli/photorenamer.git`
-`cd photorenamer`
-`javac photo_renamer/PhotoRenamer.java`
-`java photo_renamer/PhotoRenamer`
+`git clone https://github.com/vugarmammadli/photorenamer.git`  
+`cd photorenamer`  
+`javac photo_renamer/PhotoRenamer.java`  
+`java photo_renamer/PhotoRenamer`  
